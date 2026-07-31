@@ -3,6 +3,7 @@
 
 import { cookies } from "next/headers";
 import { schemaLogin, schemaRegister } from "./validation";
+import { redirect } from "next/navigation";
 
 export type ActionState = {
   success: boolean;
@@ -71,8 +72,6 @@ export const loginAction = async (
       maxAge: 60 * 60 * 24 * 7,
       sameSite: "lax",
     });
-
-    console.log(cookiesStore);
   }
   return {
     success: loginResponse.success,
@@ -123,4 +122,13 @@ export const registrationAction = async (
 
   const registerResponse = await response.json();
   return registerResponse;
+};
+
+export const logoutAction = async () => {
+  const cookiesStore = await cookies();
+
+  cookiesStore.delete("accessToken");
+  cookiesStore.delete("refreshToken");
+
+  redirect("/home");
 };

@@ -5,44 +5,49 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Checkbox } from "@/components/ui/checkbox"
+import { getAllProperties } from "../_actions/getProperties";
+import { IProperties } from "@/lib/types";
 
-const properties = [
-  {
-    id: 1,
-    title: "Modern Apartment in Dhaka",
-    location: "Gulshan, Dhaka",
-    price: 120,
-    rating: 4.9,
-    beds: 2,
-    baths: 2,
-    image:
-      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Cozy Studio Near University",
-    location: "Dhanmondi, Dhaka",
-    price: 85,
-    rating: 4.7,
-    beds: 1,
-    baths: 1,
-    image:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Luxury Family Flat",
-    location: "Banani, Dhaka",
-    price: 180,
-    rating: 5.0,
-    beds: 3,
-    baths: 3,
-    image:
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1200&auto=format&fit=crop",
-  },
-]
+// const properties = [
+//   {
+//     id: 1,
+//     title: "Modern Apartment in Dhaka",
+//     location: "Gulshan, Dhaka",
+//     price: 120,
+//     rating: 4.9,
+//     beds: 2,
+//     baths: 2,
+//     image:
+//       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
+//   },
+//   {
+//     id: 2,
+//     title: "Cozy Studio Near University",
+//     location: "Dhanmondi, Dhaka",
+//     price: 85,
+//     rating: 4.7,
+//     beds: 1,
+//     baths: 1,
+//     image:
+//       "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
+//   },
+//   {
+//     id: 3,
+//     title: "Luxury Family Flat",
+//     location: "Banani, Dhaka",
+//     price: 180,
+//     rating: 5.0,
+//     beds: 3,
+//     baths: 3,
+//     image:
+//       "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1200&auto=format&fit=crop",
+//   },
+// ]
 
-export default function HomePage() {
+export default async function HomePage() {
+    const AllProperties = await getAllProperties()
+    const properties:IProperties[] = AllProperties.data.data
+
   return (
     <main className="min-h-screen bg-background">
       
@@ -116,22 +121,22 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {properties.map((property) => (
+              {properties.map((property:IProperties) => (
                 <Card
                   key={property.id}
                   className="overflow-hidden rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group"
                 >
                   <div className="relative overflow-hidden">
                     <img
-                      src={property.image}
+                      src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop"
                       alt={property.title}
                       className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
 
-                    <div className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-1 text-sm font-medium shadow flex items-center gap-1">
+                    {/* <div className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-1 text-sm font-medium shadow flex items-center gap-1">
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                       {property.rating}
-                    </div>
+                    </div> */}
                   </div>
 
                   <CardContent className="p-4 space-y-3">
@@ -142,26 +147,26 @@ export default function HomePage() {
 
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <MapPin className="h-4 w-4" />
-                        {property.location}
+                        {property.city}, {property.area}
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <BedDouble className="h-4 w-4" />
-                        {property.beds} beds
+                        {property.bedrooms} beds
                       </div>
 
                       <div className="flex items-center gap-1">
                         <Bath className="h-4 w-4" />
-                        {property.baths} baths
+                        {property.bathrooms} baths
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
                       <div>
                         <span className="text-xl font-bold">
-                          ${property.price}
+                          ${property.rent}
                         </span>
                         <span className="text-sm text-muted-foreground">
                           /night

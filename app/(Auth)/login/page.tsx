@@ -7,24 +7,27 @@ import { Label } from "@/components/ui/label";
 import { ActionState, loginAction } from "../_actions/authAction";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 export const initialState: ActionState = { success: false, message: "" };
 
 export default function LoginPage() {
 
-  const [state,formAction,isPending] = useActionState(loginAction,initialState)
+  const [state, formAction, isPending] = useActionState(loginAction, initialState)
+  const router = useRouter()
 
-    useEffect(()=>{
-      if(!state.message) return
+  useEffect(() => {
+    if (!state.message) return
 
-      if(state.success){
-        toast.success(state.message)
-      }else{
-        toast.error(state.message)
-      }
+    if (state.success) {
+      toast.success(state.message)
+      router.push('/home')
+    } else {
+      toast.error(state.message)
+    }
 
-    },[state])
+  }, [state])
   return (
     <div className="flex min-h-[calc(100vh-120px)] items-center justify-center px-4 py-10">
       <Card className="w-full max-w-md">
