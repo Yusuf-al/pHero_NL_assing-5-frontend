@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { schemaLogin, schemaRegister } from "./validation";
@@ -5,6 +6,7 @@ import { schemaLogin, schemaRegister } from "./validation";
 export type ActionState = {
   success: boolean;
   message: string;
+  data?: any;
   errors?: Record<string, string[]>;
 };
 
@@ -50,14 +52,11 @@ export const loginAction = async (
     };
   }
 
-  const loginResponse: {
-    suceess: true;
-    message: string;
-  } = await response.json();
-
+  const loginResponse = await response.json();
   return {
-    success: true,
+    success: loginResponse.success,
     message: loginResponse.message,
+    data: loginResponse.data,
   };
 };
 
