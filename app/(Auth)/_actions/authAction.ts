@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { cookies } from "next/headers";
 import { schemaLogin, schemaRegister } from "./validation";
 
 export type ActionState = {
@@ -35,7 +36,7 @@ export const loginAction = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(result.data), // <-- use result.data, not result
+      body: JSON.stringify(result.data),
     },
   );
 
@@ -52,7 +53,27 @@ export const loginAction = async (
     };
   }
 
-  const loginResponse = await response.json();
+  const loginResponse: ActionState = await response.json();
+
+  if (loginResponse.success) {
+    const cookiesStore = await cookies();
+
+    const tokens = loginResponse.data;
+
+    cookiesStore.set("accessToken", tokens.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24,
+      sameSite: "lax",
+    });
+
+    cookiesStore.set("refreshToken", tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+    });
+
+    console.log(cookiesStore);
+  }
   return {
     success: loginResponse.success,
     message: loginResponse.message,
