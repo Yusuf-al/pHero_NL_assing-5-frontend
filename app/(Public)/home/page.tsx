@@ -1,12 +1,184 @@
+import { Search, MapPin, BedDouble, Bath, Star } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
+import { Checkbox } from "@/components/ui/checkbox"
 
-const Home = () => {
+const properties = [
+  {
+    id: 1,
+    title: "Modern Apartment in Dhaka",
+    location: "Gulshan, Dhaka",
+    price: 120,
+    rating: 4.9,
+    beds: 2,
+    baths: 2,
+    image:
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    title: "Cozy Studio Near University",
+    location: "Dhanmondi, Dhaka",
+    price: 85,
+    rating: 4.7,
+    beds: 1,
+    baths: 1,
+    image:
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    title: "Luxury Family Flat",
+    location: "Banani, Dhaka",
+    price: 180,
+    rating: 5.0,
+    beds: 3,
+    baths: 3,
+    image:
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1200&auto=format&fit=crop",
+  },
+]
+
+export default function HomePage() {
   return (
-    <div>
-      <h1>
-        Home Page
-      </h1>
-    </div>
+    <main className="min-h-screen bg-background">
+      
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
+          {/* Sidebar Filters */}
+          <aside className="lg:sticky lg:top-24 h-fit rounded-3xl border bg-card p-5 shadow-sm space-y-6">
+            <div>
+              <h2 className="text-lg font-semibold mb-4">Search & Filters</h2>
+
+              <div className="space-y-2">
+                <Label>Location</Label>
+                <Input placeholder="Enter location" />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label>Price Range</Label>
+                <span className="text-sm text-muted-foreground">$50 - $300</span>
+              </div>
+              <Slider defaultValue={[150]} max={300} step={10} />
+            </div>
+
+            <div className="space-y-3">
+              <Label>Property Type</Label>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox id="apartment" />
+                <Label htmlFor="apartment" className="font-normal">
+                  Apartment
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox id="studio" />
+                <Label htmlFor="studio" className="font-normal">
+                  Studio
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox id="family" />
+                <Label htmlFor="family" className="font-normal">
+                  Family Flat
+                </Label>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label>Bedrooms</Label>
+              <div className="grid grid-cols-3 gap-2">
+                <Button variant="outline" size="sm">1</Button>
+                <Button variant="outline" size="sm">2</Button>
+                <Button variant="outline" size="sm">3+</Button>
+              </div>
+            </div>
+
+            <Button className="w-full rounded-xl">Apply Filters</Button>
+          </aside>
+
+          {/* Property Listings */}
+          <section className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold">Available Properties</h2>
+                <p className="text-muted-foreground">
+                  120+ stays available in Dhaka
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {properties.map((property) => (
+                <Card
+                  key={property.id}
+                  className="overflow-hidden rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={property.image}
+                      alt={property.title}
+                      className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+
+                    <div className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-1 text-sm font-medium shadow flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      {property.rating}
+                    </div>
+                  </div>
+
+                  <CardContent className="p-4 space-y-3">
+                    <div className="space-y-1">
+                      <h3 className="font-semibold text-lg line-clamp-1">
+                        {property.title}
+                      </h3>
+
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <MapPin className="h-4 w-4" />
+                        {property.location}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <BedDouble className="h-4 w-4" />
+                        {property.beds} beds
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <Bath className="h-4 w-4" />
+                        {property.baths} baths
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <div>
+                        <span className="text-xl font-bold">
+                          ${property.price}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          /night
+                        </span>
+                      </div>
+
+                      <Button size="sm" className="rounded-full">
+                        View
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
   )
 }
-
-export default Home
