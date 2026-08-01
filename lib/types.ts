@@ -1,7 +1,7 @@
 export interface IProperties {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   rent: number;
   address: string;
   city: string;
@@ -37,4 +37,8 @@ export interface IUser {
   address: string | null;
   isActive: "ACTIVE" | "INACTIVE";
   properties: IProperties[];
+}
+
+export interface PropertyProps {
+  propertydata: IProperties;
 }

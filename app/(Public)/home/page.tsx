@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider"
 import { Checkbox } from "@/components/ui/checkbox"
 import { getAllProperties } from "../_actions/getProperties";
 import { IProperties } from "@/lib/types";
+import Link from "next/link";
 
 // const properties = [
 //   {
@@ -45,12 +46,12 @@ import { IProperties } from "@/lib/types";
 // ]
 
 export default async function HomePage() {
-    const AllProperties = await getAllProperties()
-    const properties:IProperties[] = AllProperties.data.data
+  const AllProperties = await getAllProperties()
+  const properties: IProperties[] = AllProperties.data.data
 
   return (
     <main className="min-h-screen bg-background">
-      
+
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
           {/* Sidebar Filters */}
@@ -115,13 +116,13 @@ export default async function HomePage() {
               <div>
                 <h2 className="text-2xl font-bold">Available Properties</h2>
                 <p className="text-muted-foreground">
-                  120+ stays available in Dhaka
+                  {properties.length} stays available
                 </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {properties.map((property:IProperties) => (
+              {properties.map((property: IProperties) => (
                 <Card
                   key={property.id}
                   className="overflow-hidden rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group"
@@ -172,9 +173,10 @@ export default async function HomePage() {
                           /night
                         </span>
                       </div>
-
-                      <Button size="sm" className="rounded-full">
-                        View
+                      <Button>
+                        <Link href={`/properties/${property.id}`} className="rounded-full">
+                          View
+                        </Link>
                       </Button>
                     </div>
                   </CardContent>

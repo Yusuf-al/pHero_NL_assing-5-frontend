@@ -1,3 +1,4 @@
+
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { Search, User, LogOut, Settings, LayoutDashboard } from "lucide-react"
@@ -16,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { IUser } from "@/lib/types";
 import { getProfile } from "@/service/getMe";
 import { logoutAction } from "../(Auth)/_actions/authAction";
+import LogoutButton from "./_components/LogoutButton";
 
 export default async function PublicLayout({
     children,
@@ -105,9 +107,8 @@ export default async function PublicLayout({
 
                                 <DropdownMenuSeparator />
 
-                                <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={async () => { await logoutAction() }}>
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    Logout
+                                <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                                    <LogoutButton />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
