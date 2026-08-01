@@ -42,3 +42,39 @@ export interface IUser {
 export interface PropertyProps {
   propertydata: IProperties;
 }
+
+export interface IBooking {
+  id: string;
+  tenantId: string;
+  propertyId: string;
+  moveInDate: string;
+  moveOutDate: string;
+  totalPrice: number;
+  message: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  isPaid: boolean;
+  createdAt: string;
+  updatedAt: string;
+
+  property: {
+    title: string;
+    city: string;
+    area: string;
+    address: string;
+  };
+
+  payments: {
+    id: string;
+    amount: number;
+    status: "PAID" | "UNPAID";
+    paymentMethod: string;
+    transactionId: string;
+    paymentDate: string;
+    tenantId: string;
+    landlordId: string;
+    propertyId: string;
+    rentalRequestId: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
