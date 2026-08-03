@@ -61,8 +61,6 @@ export default function EditPropertyDialog({
             status,
         };
 
-        console.log(updatedProperty);
-
         const res = await updatetLandlordProperties(property.id, updatedProperty);
 
         if (res.success) {
