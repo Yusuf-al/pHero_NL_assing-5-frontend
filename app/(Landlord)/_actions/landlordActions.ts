@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import { ActionState } from "@/app/(Auth)/_actions/authAction";
 import { PropertySchema } from "./propertyValidators";
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const createNewProperty = async (
   prevState: ActionState,
@@ -22,7 +23,6 @@ export const createNewProperty = async (
   };
 
   const validatePropertyData = PropertySchema.safeParse(property);
-  console.log(validatePropertyData);
 
   if (!validatePropertyData.success) {
     return {
@@ -71,5 +71,36 @@ export const createNewProperty = async (
     success: result.success,
     message: result.message,
     data: result.data,
+  };
+};
+
+export const getLandlordProperties = async (): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all`,
+    {
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+      },
+    },
+  );
+
+  const result = await res.json();
+  console.log(result);
+
+  const decoded = jwt.decode(accessToken as string) as {
+    id: string;
+  };
+
+  const properties = result.data.data.filter(
+    (property: any) => property.landlordId === decoded.id,
+  );
+
+  return {
+    success: true,
+    message: result.message,
+    data: properties,
   };
 };

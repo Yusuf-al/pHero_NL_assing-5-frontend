@@ -11,13 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getProfile } from "@/service/getMe";
+import { IUser } from "@/lib/types";
 
-export default function LandlordHeader() {
-  const user = {
-    name: "Yusuf Al Naiem",
-    email: "yusuf@example.com",
-    image: "",
-  }
+export default async function LandlordHeader() {
+  // const user = {
+  //   name: "Yusuf Al Naiem",
+  //   email: "yusuf@example.com",
+  //   image: "",
+  // }
+
+  const user: IUser = await getProfile()
 
   return (
     <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
@@ -33,7 +37,7 @@ export default function LandlordHeader() {
               className="rounded-full h-11 px-2 flex items-center gap-2"
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user.image} alt={user.name} />
+                <AvatarImage src={user.profileImage} alt={user.name} />
                 <AvatarFallback>YA</AvatarFallback>
               </Avatar>
 
