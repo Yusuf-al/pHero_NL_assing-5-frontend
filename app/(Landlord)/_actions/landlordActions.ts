@@ -88,19 +88,83 @@ export const getLandlordProperties = async (): Promise<ActionState> => {
   );
 
   const result = await res.json();
-  console.log(result);
 
   const decoded = jwt.decode(accessToken as string) as {
     id: string;
   };
 
   const properties = result.data.data.filter(
-    (property: any) => property.landlordId === decoded.id,
+    (property: any) => property.landlord.id === decoded.id,
   );
 
   return {
     success: true,
     message: result.message,
     data: properties,
+  };
+};
+
+export const updatetLandlordProperties = async (
+  id: string,
+  updateData: any,
+): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/landlord/update/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
+    },
+  );
+
+  if (!res.ok) {
+    return {
+      success: false,
+      message: "Can't Update the Property",
+    };
+  }
+
+  const result = await res.json();
+
+  return {
+    success: true,
+    message: result.message,
+    data: result,
+  };
+};
+export const deleteProperty = async (id: string): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/landlord/delete/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (!res.ok) {
+    return {
+      success: false,
+      message: "Can't Delete the Property",
+    };
+  }
+
+  const result = await res.json();
+
+  return {
+    success: true,
+    message: result.message,
+    data: result,
   };
 };

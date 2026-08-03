@@ -1,14 +1,13 @@
-import React from 'react'
-import { getLandlordProperties } from '../../_actions/landlordActions';
+import { getLandlordProperties } from "../../_actions/landlordActions";
+import PropertyList from "../../_components/PropertyList";
 
-const AllPropertiesPage = async () => {
-    const properties = await getLandlordProperties()
-    console.log(properties)
-    return (
-        <div>
-            <h1>All Properties list</h1>
-        </div>
-    )
+
+export default async function AllPropertiesPage() {
+    const result = await getLandlordProperties();
+
+    if (!result.success) {
+        return <div>{result.message}</div>;
+    }
+
+    return <PropertyList properties={result.data ?? []} />;
 }
-
-export default AllPropertiesPage
