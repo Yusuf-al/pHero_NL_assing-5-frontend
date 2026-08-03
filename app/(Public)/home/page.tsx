@@ -47,9 +47,11 @@ import Link from "next/link";
 
 export default async function HomePage() {
   const AllProperties = await getAllProperties()
+
   const properties: IProperties[] = AllProperties.data.data
 
   return (
+
     <main className="min-h-screen bg-background">
 
       <div className="container mx-auto px-4 py-6">

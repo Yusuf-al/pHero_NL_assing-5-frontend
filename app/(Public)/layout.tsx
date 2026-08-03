@@ -83,7 +83,7 @@ export default async function PublicLayout({
                                 <DropdownMenuSeparator />
                                 {
                                     user.role === 'LANDLORD' ? <> <DropdownMenuItem asChild>
-                                        <Link href="/dashboard" className="flex items-center gap-2">
+                                        <Link href="/landlord/dashboard" className="flex items-center gap-2">
                                             <LayoutDashboard className="h-4 w-4" />
                                             Dashboard
                                         </Link>
@@ -115,7 +115,7 @@ export default async function PublicLayout({
                     ) : (
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" asChild>
-                                <Link href="/register">Register</Link>
+                                <Link href="/registration">Register</Link>
                             </Button>
 
                             <Button className="rounded-full" asChild>

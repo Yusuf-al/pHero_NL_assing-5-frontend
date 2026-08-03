@@ -5,7 +5,6 @@ export const getAllProperties = async () => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all`,
     {
       method: "GET",
-      cache: "force-cache",
       next: {
         revalidate: 60 * 60 * 24,
         tags: ["properties"],

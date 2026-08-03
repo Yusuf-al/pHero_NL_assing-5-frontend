@@ -1,8 +1,13 @@
+import { getProfile } from '@/service/getMe';
 import React from 'react'
 
-const landlordDashboard = () => {
+const landlordDashboard = async () => {
+
+  const userData = await getProfile()
+
+  // console.log(userData)
   return (
-   <div className="space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Landlord Dashboard</h1>
         <p className="text-muted-foreground">

@@ -9,11 +9,11 @@ export const getProfile = async () => {
     headers: {
       Cookie: `accessToken=${accessToken}`,
     },
-    cache: "force-cache",
-    next: {
-      revalidate: 60 * 60 * 24,
-      tags: ["profile"],
-    },
+    // cache: "force-cache",
+    // next: {
+    //   revalidate: 60 * 60 * 24,
+    //   tags: ["profile"],
+    // },
   });
 
   const user = await res.json();

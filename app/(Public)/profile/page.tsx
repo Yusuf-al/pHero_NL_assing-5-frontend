@@ -7,15 +7,15 @@ import ProfileInfoCard from "../_components/profile-info-card";
 import AccountOverviewCard from "../_components/account-overview-card";
 import { IUser } from "@/lib/types";
 import { getProfile } from "@/service/getMe";
+import MyBookings from "../_components/BookingHistory";
+import PaymentHistory from "../_components/PaymentHistory";
 
 
 
 export default async function ProfilePage() {
 
 
-    const user: IUser = await getProfile()
-
-
+    const user = await getProfile()
 
     return (
 
@@ -45,7 +45,9 @@ export default async function ProfilePage() {
 
             </div>
 
+            <MyBookings bookings={user.rentalRequests} />
 
+            <PaymentHistory payments={user.tenantPayments} />
         </div>
 
     )
