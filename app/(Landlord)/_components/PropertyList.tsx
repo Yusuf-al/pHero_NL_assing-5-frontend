@@ -22,18 +22,6 @@ import { useRouter } from "next/navigation";
 import { deleteProperty } from "../_actions/landlordActions";
 import { toast } from "sonner";
 
-// interface Property {
-//     id: string;
-//     title: string;
-//     description: string;
-//     rent: number;
-//     address: string;
-//     city: string;
-//     area: string;
-//     bedrooms: number;
-//     bathrooms: number;
-//     status: string;
-// }
 
 interface PropertyListProps {
     properties: any;
@@ -76,7 +64,14 @@ export default function PropertyList({
 
     return (
         <>
+            <div className="mb-2">
+                <h1 className="text-3xl font-bold">All Property List</h1>
+                <p className="text-muted-foreground">
+                    Manage your properties.
+                </p>
+            </div>
             <div className="rounded-xl border bg-background">
+
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -99,10 +94,6 @@ export default function PropertyList({
                                         <div>
                                             <p className="font-semibold">
                                                 {property.title}
-                                            </p>
-
-                                            <p className="text-sm text-muted-foreground line-clamp-1">
-                                                {property.description}
                                             </p>
                                         </div>
                                     </TableCell>

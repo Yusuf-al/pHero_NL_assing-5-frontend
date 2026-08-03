@@ -168,3 +168,95 @@ export const deleteProperty = async (id: string): Promise<ActionState> => {
     data: result,
   };
 };
+
+export const getLandlordRentRequest = async (): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/landlord/requests`,
+    {
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+      },
+    },
+  );
+
+  const result = await res.json();
+
+  return {
+    success: true,
+    message: result.message,
+    data: result.data,
+  };
+};
+export const updateRentalStatus = async (
+  id: string,
+  status: string,
+): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/rent/requests/update/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: status }),
+    },
+  );
+
+  if (!res.ok) {
+    return {
+      success: false,
+      message: "Can't Update the Property status",
+    };
+  }
+
+  const result = await res.json();
+
+  return {
+    success: true,
+    message: result.message,
+    data: result,
+  };
+};
+
+export const allPayments = async (): Promise<ActionState> => {
+  const cookiesStore = await cookies();
+  const accessToken = cookiesStore.get("accessToken")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/payment/all`,
+    {
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+      },
+    },
+  );
+  if (!res.ok) {
+    return {
+      success: false,
+      message: "Can't get the payments data",
+    };
+  }
+  const result = await res.json();
+  console.log(result);
+
+  // const decoded = jwt.decode(accessToken as string) as {
+  //   id: string;
+  // };
+
+  // const payments = result.data.filter(
+  //   (payment: any) => payment.landlord.id === decoded.id,
+  // );
+
+  return {
+    success: true,
+    message: result.message,
+    data: result,
+  };
+};

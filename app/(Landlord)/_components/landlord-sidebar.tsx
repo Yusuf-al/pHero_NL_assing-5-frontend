@@ -32,8 +32,8 @@ const menus = [
     icon: PlusSquare,
   },
   {
-    title: "Tenants",
-    href: "/landlord/tenants",
+    title: "Requests",
+    href: "/landlord/rent-requests",
     icon: Users,
   },
   {
