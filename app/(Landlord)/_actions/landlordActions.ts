@@ -4,7 +4,7 @@ import { ActionState } from "@/app/(Auth)/_actions/authAction";
 import { PropertySchema } from "./propertyValidators";
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export const createNewProperty = async (
   prevState: ActionState,
@@ -229,6 +229,13 @@ export const allPayments = async (): Promise<ActionState> => {
   const cookiesStore = await cookies();
   const accessToken = cookiesStore.get("accessToken")?.value;
 
+  if (!accessToken) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/payment/all`,
     {
@@ -237,26 +244,24 @@ export const allPayments = async (): Promise<ActionState> => {
       },
     },
   );
-  if (!res.ok) {
+
+  const result = await res.json();
+
+  if (!res.ok || !result.success) {
     return {
       success: false,
-      message: "Can't get the payments data",
+      message: result.message || "Can't get payment data",
     };
   }
-  const result = await res.json();
-  console.log(result);
 
-  // const decoded = jwt.decode(accessToken as string) as {
-  //   id: string;
-  // };
-
-  // const payments = result.data.filter(
-  //   (payment: any) => payment.landlord.id === decoded.id,
-  // );
+  const decoded = jwt.decode(accessToken as string) as { id: string };
+  const payments = result.data.filter(
+    (payment: any) => payment.landlord.id === decoded.id,
+  );
 
   return {
     success: true,
     message: result.message,
-    data: result,
+    data: payments,
   };
 };

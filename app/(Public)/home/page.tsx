@@ -45,10 +45,19 @@ import Link from "next/link";
 //   },
 // ]
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+
+}) {
+
   const AllProperties = await getAllProperties()
 
   const properties: IProperties[] = AllProperties.data.data
+
+  const search = await searchParams;
+  console.log(search)
 
   return (
 

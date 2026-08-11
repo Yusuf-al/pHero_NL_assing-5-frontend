@@ -55,12 +55,9 @@ export default function PaymentHistory({
 
                             <TableCell>
                                 <Badge
-                                    variant={
-                                        payment.status === "PAID"
-                                            ? "default"
-                                            : "destructive"
-                                    }
-                                >
+                                    className={
+                                        payment.isPaid ? "bg-red-100 text-red-600 hover:bg-red-100" : "bg-green-100 text-green-600 hover:bg-green-100"
+                                    }>
                                     {payment.status}
                                 </Badge>
                             </TableCell>

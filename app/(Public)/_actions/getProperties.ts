@@ -1,8 +1,13 @@
 "use server";
 import { cookies } from "next/headers";
-export const getAllProperties = async () => {
+
+export const getAllProperties = async ({
+  search,
+}: {
+  search: { [key: string]: string | string[] };
+}) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${search}`,
     {
       method: "GET",
       next: {

@@ -1,9 +1,10 @@
-import { allPayments } from "../../_actions/landlordActions";
-import PaymentsTable from "../../_components/PaymentsTable";
+import PaymentsTable from "@/app/(Landlord)/_components/PaymentsTable";
+import { allCompletePayments } from "../../_actions/adminActions";
+
 
 
 export default async function PaymentPage() {
-    const result = await allPayments();
+    const result = await allCompletePayments();
 
     if (!result.success) {
         return <div>{result.message}</div>;

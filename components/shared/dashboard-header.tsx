@@ -13,13 +13,10 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getProfile } from "@/service/getMe";
 import { IUser } from "@/lib/types";
+import UserMenu from "@/components/shared/UserMenu";
 
-export default async function LandlordHeader() {
-  // const user = {
-  //   name: "Yusuf Al Naiem",
-  //   email: "yusuf@example.com",
-  //   image: "",
-  // }
+export default async function dashboardHeader() {
+
 
   const user: IUser = await getProfile()
 
@@ -31,7 +28,7 @@ export default async function LandlordHeader() {
         </Link>
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          {/* <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
               className="rounded-full h-11 px-2 flex items-center gap-2"
@@ -75,7 +72,9 @@ export default async function LandlordHeader() {
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </DropdownMenuItem>
-          </DropdownMenuContent>
+          </DropdownMenuContent> */}
+
+          {user && <UserMenu user={user} />}
         </DropdownMenu>
       </div>
     </header>

@@ -58,12 +58,18 @@ export default function MyBookings({ bookings }: BookingDataProps) {
 
                             <TableCell>
                                 <Badge
-                                    variant={
-                                        booking.status === "APPROVED"
-                                            ? "default"
-                                            : booking.status === "PENDING"
-                                                ? "secondary"
-                                                : "destructive"
+                                    className={
+                                        booking.status === "PENDING"
+                                            ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-100"
+                                            : booking.status === "APPROVED"
+                                                ? "bg-green-100 text-green-600 hover:bg-green-100"
+                                                : booking.status === "COMPLETED"
+                                                    ? "bg-blue-100 text-blue-600 hover:bg-blue-100"
+                                                    : booking.status === "CANCELLED"
+                                                        ? "bg-red-100 text-red-600 hover:bg-red-100"
+                                                        : booking.status === "REJECTED"
+                                                            ? "bg-red-100 text-red-600 hover:bg-red-100"
+                                                            : "bg-gray-100 text-gray-600 hover:bg-gray-100"
                                     }
                                 >
                                     {booking.status}

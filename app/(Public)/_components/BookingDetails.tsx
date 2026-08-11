@@ -171,10 +171,8 @@ export default function BookingDetails({
                                 <span>Payment</span>
 
                                 <Badge
-                                    variant={
-                                        booking.isPaid
-                                            ? "default"
-                                            : "destructive"
+                                    className={
+                                        booking.isPaid ? "bg-green-100 text-green-600 hover:bg-green-100" : "bg-red-100 text-red-600 hover:bg-red-100"
                                     }
                                 >
                                     {booking.isPaid ? "Paid" : "Unpaid"}
@@ -184,29 +182,38 @@ export default function BookingDetails({
                             <div className="flex justify-between">
                                 <span>Status</span>
 
-                                <Badge>{booking.status}</Badge>
+                                <Badge className={
+                                    booking.status === "PENDING"
+                                        ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-100"
+                                        : booking.status === "APPROVED"
+                                            ? "bg-green-100 text-green-600 hover:bg-green-100"
+                                            : booking.status === "COMPLETED"
+                                                ? "bg-blue-100 text-blue-600 hover:bg-blue-100"
+                                                : booking.status === "CANCELLED"
+                                                    ? "bg-red-100 text-red-600 hover:bg-red-100"
+                                                    : booking.status === "REJECTED"
+                                                        ? "bg-red-100 text-red-600 hover:bg-red-100"
+                                                        : "bg-gray-100 text-gray-600 hover:bg-gray-100"
+                                } >{booking.status}</Badge>
                             </div>
                         </div>
 
-                        {!booking.isPaid && (
+                        {!booking.isPaid && booking.status === "PENDING" && (
                             <>
-                                {booking.status === 'CANCELLED' ? '' : <>
-                                    <Button className="w-full" onClick={handlePayment}>
-                                        <CreditCard className="mr-2 h-4 w-4" />
-                                        Pay Now
-                                    </Button>
-                                    <Button
-                                        variant={"outline"}
-                                        onClick={handleCancel}
-                                        disabled={isPending}
-                                        className="w-full text-red-400"
-                                    >
-                                        {isPending ? "Cancelling..." : "Cancel Request"}
-                                    </Button>
-                                </>}
+                                <Button className="w-full" onClick={handlePayment}>
+                                    <CreditCard className="mr-2 h-4 w-4" />
+                                    Pay Now
+                                </Button>
 
+                                <Button
+                                    variant="outline"
+                                    onClick={handleCancel}
+                                    disabled={isPending}
+                                    className="w-full text-red-500"
+                                >
+                                    {isPending ? "Cancelling..." : "Cancel Request"}
+                                </Button>
                             </>
-
                         )}
                     </aside>
                 </div>
