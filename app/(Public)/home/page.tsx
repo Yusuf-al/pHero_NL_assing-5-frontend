@@ -1,7 +1,7 @@
-import { Search, MapPin, BedDouble, Bath, Star } from "lucide-react"
+import { MapPin, BedDouble, Bath, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -9,55 +9,21 @@ import { getAllProperties } from "../_actions/getProperties";
 import { IProperties } from "@/lib/types";
 import Link from "next/link";
 
-// const properties = [
-//   {
-//     id: 1,
-//     title: "Modern Apartment in Dhaka",
-//     location: "Gulshan, Dhaka",
-//     price: 120,
-//     rating: 4.9,
-//     beds: 2,
-//     baths: 2,
-//     image:
-//       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
-//   },
-//   {
-//     id: 2,
-//     title: "Cozy Studio Near University",
-//     location: "Dhanmondi, Dhaka",
-//     price: 85,
-//     rating: 4.7,
-//     beds: 1,
-//     baths: 1,
-//     image:
-//       "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
-//   },
-//   {
-//     id: 3,
-//     title: "Luxury Family Flat",
-//     location: "Banani, Dhaka",
-//     price: 180,
-//     rating: 5.0,
-//     beds: 3,
-//     baths: 3,
-//     image:
-//       "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1200&auto=format&fit=crop",
-//   },
-// ]
+import CityFilter from "../_components/cityFilter";
+
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-
+  searchParams?: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }) {
+  const query = await searchParams;
+  const AllProperties = await getAllProperties({ query })
+  const properties: IProperties[] = AllProperties.data
 
-  const AllProperties = await getAllProperties()
 
-  const properties: IProperties[] = AllProperties.data.data
-
-  const search = await searchParams;
-  console.log(search)
 
   return (
 
@@ -71,8 +37,7 @@ export default async function HomePage({
               <h2 className="text-lg font-semibold mb-4">Search & Filters</h2>
 
               <div className="space-y-2">
-                <Label>Location</Label>
-                <Input placeholder="Enter location" />
+                <CityFilter />
               </div>
             </div>
 

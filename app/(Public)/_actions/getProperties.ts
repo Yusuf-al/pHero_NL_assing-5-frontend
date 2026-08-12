@@ -1,13 +1,28 @@
 "use server";
+import { ActionState } from "@/app/(Auth)/_actions/authAction";
 import { cookies } from "next/headers";
 
 export const getAllProperties = async ({
-  search,
+  query,
 }: {
-  search: { [key: string]: string | string[] };
-}) => {
+  query?: {
+    [key: string]: string | string[] | undefined;
+  };
+}): Promise<ActionState> => {
+  const params = new URLSearchParams();
+
+  if (query && query.searchTerm) {
+    params.set("searchTerm", query.searchTerm as string);
+  }
+
+  if (query && query.city) {
+    params.set("city", query.city as string);
+  }
+
+  console.log(params);
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${search}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${params.toString()}`,
     {
       method: "GET",
       next: {
@@ -18,7 +33,18 @@ export const getAllProperties = async ({
   );
 
   const result = await res.json();
-  return result;
+
+  if (!res.ok || !result.success) {
+    return {
+      success: false,
+      message: result.message || "Can't get Properties",
+    };
+  }
+  return {
+    success: true,
+    message: result.message,
+    data: result.data.data,
+  };
 };
 
 export const getSingleProperty = async (id: string) => {
@@ -72,6 +98,10 @@ export const makeRentalRequest = async (
 export const getRentalRequest = async (id: string) => {
   const cookiesStore = await cookies();
   const accessToken = cookiesStore.get("accessToken")?.value;
+
+  if (!accessToken) {
+    throw new Error("Access token not found");
+  }
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rent/requests/${id}`,
     {

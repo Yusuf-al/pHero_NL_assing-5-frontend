@@ -29,9 +29,9 @@ export default async function PublicLayout({
                     </Link>
 
                     {/* Search Bar */}
-                    <div className="hidden md:flex items-center gap-2 rounded-full border px-3 py-2 shadow-sm w-[420px]">
-
-                    </div>
+                    <>
+                        <PropertySearch />
+                    </>
 
                     {/* Right Side */}
                     {user ? <>
