@@ -27,6 +27,16 @@ export const getAllProperties = async ({
     params.set("maxRent", String(query.maxRent));
   }
 
+  if (query && query.category) {
+    params.set("category", query.category as string);
+  }
+  if (query && query.bedrooms) {
+    params.set("bedrooms", query.bedrooms as string);
+  }
+  if (query && query.page) {
+    params.set("page", query.page as string);
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${params.toString()}`,
     {
@@ -51,6 +61,7 @@ export const getAllProperties = async ({
     success: true,
     message: result.message,
     data: result.data.data,
+    meta: result.data.meta,
   };
 };
 
@@ -190,6 +201,6 @@ export const makePayment = async (id: string) => {
   return {
     success: true,
     message: result.message,
-    data: result.data,
+    data: result,
   };
 };

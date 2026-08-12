@@ -11,6 +11,9 @@ import Link from "next/link";
 
 import CityFilter from "../_components/cityFilter";
 import RangeFilter from "../_components/rangeFilter";
+import CategoryFilter from "../_components/categoryFilter";
+import BedroomFilter from "../_components/bedRoomFilter";
+import Pagination from "@/components/shared/pagination";
 
 
 export default async function HomePage({
@@ -23,6 +26,8 @@ export default async function HomePage({
   const query = await searchParams;
   const AllProperties = await getAllProperties({ query })
   const properties: IProperties[] = AllProperties.data
+
+  console.log(AllProperties.meta)
 
 
 
@@ -44,41 +49,9 @@ export default async function HomePage({
 
             <RangeFilter />
 
-            <div className="space-y-3">
-              <Label>Property Type</Label>
+            <CategoryFilter />
 
-              <div className="flex items-center space-x-2">
-                <Checkbox id="apartment" />
-                <Label htmlFor="apartment" className="font-normal">
-                  Apartment
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="studio" />
-                <Label htmlFor="studio" className="font-normal">
-                  Studio
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="family" />
-                <Label htmlFor="family" className="font-normal">
-                  Family Flat
-                </Label>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <Label>Bedrooms</Label>
-              <div className="grid grid-cols-3 gap-2">
-                <Button variant="outline" size="sm">1</Button>
-                <Button variant="outline" size="sm">2</Button>
-                <Button variant="outline" size="sm">3+</Button>
-              </div>
-            </div>
-
-            <Button className="w-full rounded-xl">Apply Filters</Button>
+            <BedroomFilter />
           </aside>
 
           {/* Property Listings */}
@@ -153,9 +126,14 @@ export default async function HomePage({
                   </CardContent>
                 </Card>
               ))}
+
             </div>
+            <Pagination currentPage={Number(query?.page) || 1}
+              totalPages={AllProperties.meta?.totalPages || 1} />
           </section>
+
         </div>
+
       </div>
     </main>
   )

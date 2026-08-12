@@ -10,6 +10,7 @@ export type ActionState = {
   message: string;
   data?: any;
   errors?: Record<string, string[]>;
+  meta?: any;
 };
 
 export const loginAction = async (

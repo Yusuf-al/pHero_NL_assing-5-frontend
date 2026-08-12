@@ -2,8 +2,16 @@ import { getAllProperties } from "@/app/(Public)/_actions/getProperties";
 import AdminPropertiesTable from "../../_components/AdminPropertiesTable";
 
 
-export default async function AllPropertiesAdminPage() {
-    const result = await getAllProperties();
+export default async function AllPropertiesAdminPage({
+    searchParams,
+}: {
+    searchParams?: Promise<{
+        [key: string]: string | string[] | undefined;
+    }>;
+}) {
+
+    const query = await searchParams;
+    const result = await getAllProperties({ query });
 
     if (!result.success) {
         return (
@@ -22,7 +30,7 @@ export default async function AllPropertiesAdminPage() {
                 </p>
             </div>
 
-            <AdminPropertiesTable properties={result.data.data ?? []} />
+            <AdminPropertiesTable properties={result.data ?? []} />
         </div>
     );
 }

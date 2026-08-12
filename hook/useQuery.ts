@@ -7,8 +7,13 @@ export function useQueryFilter() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const updateQuery = (key: string, value: string) => {
+  const updateQuery = (key: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
+
+    if (value === null) {
+      router.replace(pathname);
+      return;
+    }
 
     if (value.trim()) {
       params.set(key, value.trim());
