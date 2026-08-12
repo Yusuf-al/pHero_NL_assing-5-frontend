@@ -10,6 +10,7 @@ import { IProperties } from "@/lib/types";
 import Link from "next/link";
 
 import CityFilter from "../_components/cityFilter";
+import RangeFilter from "../_components/rangeFilter";
 
 
 export default async function HomePage({
@@ -41,13 +42,7 @@ export default async function HomePage({
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label>Price Range</Label>
-                <span className="text-sm text-muted-foreground">$50 - $300</span>
-              </div>
-              <Slider defaultValue={[150]} max={300} step={10} />
-            </div>
+            <RangeFilter />
 
             <div className="space-y-3">
               <Label>Property Type</Label>

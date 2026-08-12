@@ -19,7 +19,13 @@ export const getAllProperties = async ({
     params.set("city", query.city as string);
   }
 
-  console.log(params);
+  if (query?.minRent !== undefined) {
+    params.set("minRent", String(query.minRent));
+  }
+
+  if (query?.maxRent !== undefined) {
+    params.set("maxRent", String(query.maxRent));
+  }
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${params.toString()}`,
@@ -31,6 +37,7 @@ export const getAllProperties = async ({
       },
     },
   );
+  console.log(res.url);
 
   const result = await res.json();
 
