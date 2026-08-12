@@ -83,6 +83,17 @@ export default function UserMenu({ user }: UserMenuProps) {
                         </Link>
                     </DropdownMenuItem>
                 )}
+                {user.role === "ADMIN" && (
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href="/admin/dashboard"
+                            className="flex items-center gap-2"
+                        >
+                            <LayoutDashboard className="h-4 w-4" />
+                            Dashboard
+                        </Link>
+                    </DropdownMenuItem>
+                )}
 
                 <DropdownMenuItem asChild>
                     <Link

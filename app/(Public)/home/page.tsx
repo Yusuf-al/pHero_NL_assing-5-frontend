@@ -27,10 +27,6 @@ export default async function HomePage({
   const AllProperties = await getAllProperties({ query })
   const properties: IProperties[] = AllProperties.data
 
-  console.log(AllProperties.meta)
-
-
-
   return (
 
     <main className="min-h-screen bg-background">

@@ -18,6 +18,7 @@ export default async function PublicLayout({
     const user: IUser = await getProfile()
 
 
+
     return (
         <div className="min-h-screen bg-background">
             {/* Header */}
@@ -30,7 +31,7 @@ export default async function PublicLayout({
 
                     {/* Search Bar */}
                     <>
-                        <PropertySearch />
+                        <PropertySearch paths={["/home"]} />
                     </>
 
                     {/* Right Side */}

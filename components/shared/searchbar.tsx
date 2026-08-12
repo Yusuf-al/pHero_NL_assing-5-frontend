@@ -8,17 +8,27 @@ import { useQueryFilter } from "@/hook/useQuery";
 import { usePathname } from "next/navigation";
 
 
-export default function PropertySearch() {
-    const { getQuery, updateQuery } = useQueryFilter()
+interface Props {
+    paths: string[];
+}
 
-    const handleSearch = (value: string) => {
-        updateQuery("searchTerm", value)
-    }
+export default function PropertySearch({
+    paths,
+}: Props) {
+    const { getQuery, updateQuery } = useQueryFilter()
 
     const pathname = usePathname();
 
-    if (pathname !== "/home") {
+    const shouldShow = paths.some((path) => {
+        return pathname === path || pathname.startsWith(`${path}`);
+    });
+
+    if (!shouldShow) {
         return null;
+    }
+
+    const handleSearch = (value: string) => {
+        updateQuery("searchTerm", value)
     }
 
     return (
@@ -31,10 +41,6 @@ export default function PropertySearch() {
                 className="border-0 focus-visible:ring-0 shadow-none"
                 onChange={(e) => handleSearch(e.target.value)}
             />
-
-            <Button size="sm" className="rounded-full">
-                Search
-            </Button>
         </div>
     );
 }

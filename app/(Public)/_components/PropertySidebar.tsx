@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PropertyProps } from "@/lib/types";
 import { useState } from "react";
 import BookingDialog from "./BookingDialog";
+import { Badge } from "@/components/ui/badge";
 
 export default function PropertySidebar({
     propertydata,
@@ -11,19 +12,31 @@ export default function PropertySidebar({
     const { rent, landlord } = propertydata
     return (
         <>
+
             <div className="sticky top-24 rounded-3xl border p-6 h-fit">
                 <div className="space-y-4">
-                    <h2 className="text-4xl font-bold">
-                        {rent}
-                        <span className="text-lg font-normal">/day</span>
-                    </h2>
+                    {propertydata.status === "AVAILABLE" && <>
+                        <h2 className="text-4xl font-bold">
+                            {rent}
+                            <span className="text-lg font-normal">/day</span>
+                        </h2>
 
-                    <Button className="w-full" onClick={() => setOpen(true)}>
+                        <Button className="w-full" onClick={() => setOpen(true)}>
 
 
-                        Book Now
+                            Book Now
 
-                    </Button>
+                        </Button>
+                    </>}
+
+                    {
+                        propertydata.status !== "AVAILABLE" && <Badge
+                            variant="destructive"
+                        >
+                            {propertydata.status}
+                        </Badge>
+                    }
+
                     <Button variant={"outline"} className="w-full">
                         Contact Details
                     </Button>

@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { makeRentalRequest } from "../_actions/getProperties";
 import { toast } from "sonner";
-import da from "zod/v4/locales/da.cjs";
+
 
 interface BookingDialogProps {
     open: boolean;
@@ -48,23 +48,18 @@ export default function BookingDialog({
                     message,
                 });
 
-                console.log(res); // log here instead
-
-
-
                 if (!res.success) {
                     toast.error(res.message);
+                } else {
+                    // both branches do the same thing, so just do it once
+                    setMoveInDate("");
+                    setMoveOutDate("");
+                    setMessage("");
+                    onOpenChange(false)
+                    toast.success("Booking request has been submitted")
+                    router.push(`/bookings/${res.data.id}`)
                 }
 
-
-
-                // both branches do the same thing, so just do it once
-                setMoveInDate("");
-                setMoveOutDate("");
-                setMessage("");
-                onOpenChange(false)
-                toast.success("Booking request has been submitted")
-                router.push(`/bookings/${res.data.id}`)
             } catch (error) {
                 console.error("Rental request failed:", error);
             }

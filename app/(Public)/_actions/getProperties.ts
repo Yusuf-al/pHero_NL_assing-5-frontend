@@ -41,10 +41,10 @@ export const getAllProperties = async ({
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all?${params.toString()}`,
     {
       method: "GET",
-      next: {
-        revalidate: 60 * 60 * 24,
-        tags: ["properties"],
-      },
+      // next: {
+      //   revalidate: 60 * 60 * 24,
+      //   tags: ["properties"],
+      // },
     },
   );
   console.log(res.url);

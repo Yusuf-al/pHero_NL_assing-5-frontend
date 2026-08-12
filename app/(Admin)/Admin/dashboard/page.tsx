@@ -1,9 +1,10 @@
 import React from 'react'
+import Charts from '../../_components/chart';
 
 const page = () => {
     return (
         <div>
-            <h1>Admin</h1>
+            <Charts />
         </div>
     )
 }
