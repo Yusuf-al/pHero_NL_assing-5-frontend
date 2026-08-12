@@ -62,7 +62,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
-  if (pathName.startsWith("/bookings") && userRole !== "USER") {
+  if (pathName.startsWith("/bookings") && userRole !== "TENANT") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 

@@ -1,5 +1,6 @@
 "use server";
 import { ActionState } from "@/app/(Auth)/_actions/authAction";
+import { getAccessToken } from "@/lib/accesstoken";
 import { cookies } from "next/headers";
 
 export const getAllProperties = async ({
@@ -84,8 +85,12 @@ export const makeRentalRequest = async (
     message: string;
   },
 ) => {
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rent/requests/${id}`,
     {
@@ -114,11 +119,10 @@ export const makeRentalRequest = async (
 };
 
 export const getRentalRequest = async (id: string) => {
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    throw new Error("Access token not found");
+    return { success: false, message: "Unauthorized" };
   }
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rent/requests/${id}`,
@@ -146,8 +150,12 @@ export const getRentalRequest = async (id: string) => {
 };
 
 export const cancelRentalRequest = async (id: string) => {
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/rent/requests/cancel/${id}`,
     {
@@ -176,8 +184,12 @@ export const cancelRentalRequest = async (id: string) => {
 };
 
 export const makePayment = async (id: string) => {
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/payment/${id}/create-payment-session`,
     {
