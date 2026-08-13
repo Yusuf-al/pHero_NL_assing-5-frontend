@@ -13,6 +13,7 @@ import { cancelRentalRequest, makePayment } from "../_actions/getProperties";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 interface BookingDetailsProps {
     booking: any;
@@ -46,10 +47,13 @@ export default function BookingDetails({
             if (!res.success) {
                 toast.error(res.message);
                 return;
+            } else {
+
+                console.log(res.data)
+                toast.success("Please complete your payment process");
+                router.push(res.data) // re-fetches server data, updates badge/status in UI
             }
 
-            toast.success("Please complete your payment process");
-            router.push(res.data); // re-fetches server data, updates badge/status in UI
         });
     };
     return (
@@ -202,7 +206,8 @@ export default function BookingDetails({
                             <>
                                 <Button className="w-full" onClick={handlePayment}>
                                     <CreditCard className="mr-2 h-4 w-4" />
-                                    Pay Now
+                                    {isPending ? <Spinner className="size-6" /> : "Pay Now"}
+
                                 </Button>
 
                                 <Button
@@ -211,7 +216,7 @@ export default function BookingDetails({
                                     disabled={isPending}
                                     className="w-full text-red-500"
                                 >
-                                    {isPending ? "Cancelling..." : "Cancel Request"}
+                                    {isPending ? <Spinner className="size-6" /> : "Cancel Request"}
                                 </Button>
                             </>
                         )}

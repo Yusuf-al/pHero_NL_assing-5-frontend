@@ -48,7 +48,7 @@ export default function ProfileInfoCard({
             </p>
 
             <p className="font-medium">
-              {user.email}
+              {user?.email}
             </p>
 
           </div>
@@ -69,7 +69,7 @@ export default function ProfileInfoCard({
             </p>
 
             <p className="font-medium">
-              {user.phone || "Not added"}
+              {user?.phone || "Not added"}
             </p>
 
           </div>
@@ -92,7 +92,7 @@ export default function ProfileInfoCard({
             </p>
 
             <p className="font-medium">
-              {user.address || "Not added"}
+              {user?.address || "Not added"}
             </p>
 
 

@@ -1,21 +1,30 @@
-import { cookies } from "next/headers";
+import { getAccessToken } from "@/lib/accesstoken";
 
 export const getProfile = async () => {
-  const cookiesStore = await cookies();
-
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/me`, {
+    method: "GET",
     headers: {
       Cookie: `accessToken=${accessToken}`,
     },
-    // cache: "force-cache",
-    // next: {
-    //   revalidate: 60 * 60 * 24,
-    //   tags: ["profile"],
-    // },
+    cache: "no-store",
   });
 
-  const user = await res.json();
-  return user.data;
+  if (!res.ok) {
+    console.error("Failed to get profile:", res.status);
+    return null;
+  }
+
+  const result = await res.json();
+
+  console.log("PROFILE API RESPONSE:", result);
+
+  return result?.data ?? null;
 };

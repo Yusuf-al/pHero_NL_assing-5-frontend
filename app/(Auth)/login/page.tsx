@@ -8,6 +8,7 @@ import { ActionState, loginAction } from "../_actions/authAction";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 
 export const initialState: ActionState = { success: false, message: "" };
@@ -72,7 +73,10 @@ export default function LoginPage() {
             </div>
 
             <Button type="submit" className="w-full">
-              {isPending ? "Signing in..." : "Sign in"}
+              {isPending ? <>
+                <Spinner data-icon="inline-start" />
+                Please wait
+              </> : "Sign in"}
             </Button>
           </form>
 

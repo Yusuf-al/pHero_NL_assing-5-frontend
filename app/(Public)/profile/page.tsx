@@ -16,6 +16,7 @@ export default async function ProfilePage() {
 
 
     const user = await getProfile()
+    console.log("PROFILE AFTER UPDATE:", user);
 
     return (
 
@@ -45,9 +46,9 @@ export default async function ProfilePage() {
 
             </div>
 
-            <MyBookings bookings={user.rentalRequests} />
+            <MyBookings bookings={user?.rentalRequests ?? []} />
 
-            <PaymentHistory payments={user.tenantPayments} />
+            <PaymentHistory payments={user?.tenantPayments ?? []} />
         </div>
 
     )

@@ -1,7 +1,8 @@
 "use server";
 import { ActionState } from "@/app/(Auth)/_actions/authAction";
-import { getAccessToken } from "@/lib/accesstoken";
-import { cookies } from "next/headers";
+import { decodeUser, getAccessToken } from "@/lib/accesstoken";
+import { JwtPayload } from "jsonwebtoken";
+import { redirect } from "next/navigation";
 
 export const getAllProperties = async ({
   query,
@@ -210,6 +211,7 @@ export const makePayment = async (id: string) => {
   }
   const result = await res.json();
 
+  redirect(result.data);
   return {
     success: true,
     message: result.message,

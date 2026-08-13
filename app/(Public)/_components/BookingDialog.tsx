@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { makeRentalRequest } from "../_actions/getProperties";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 
 
 interface BookingDialogProps {
@@ -125,7 +127,10 @@ export default function BookingDialog({
                             new Date(moveOutDate) <= new Date(moveInDate)
                         }
                     >
-                        {isPending ? "......" : "Continue"}
+                        {isPending ? <Badge variant="secondary">
+                            <Spinner data-icon="inline-start" />
+                            Submitting...
+                        </Badge> : "Continue"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

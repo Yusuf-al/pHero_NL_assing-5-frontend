@@ -6,12 +6,17 @@ export async function getAccessToken(): Promise<string | undefined> {
   return cookiesStore.get("accessToken")?.value;
 }
 
-export function decodeUserId(accessToken: string | undefined) {
+export function decodeUser(accessToken: string | undefined) {
   if (!accessToken) return null;
-  try {
-    const decoded = jwt.decode(accessToken);
 
-    return decoded;
+  const secret = process.env.JWT_ACCESS_SECRET;
+  if (!secret) throw new Error("JWT_ACCESS_SECRET is not set");
+
+  try {
+    const verifiedToken = jwt.verify(accessToken, secret);
+
+    // const decoded = jwt.decode(accessToken);
+    return verifiedToken;
   } catch {
     return null;
   }

@@ -1,15 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Edit } from "lucide-react"
-import { UserProfile } from "./profile-types"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { IUser } from "@/lib/types";
-
+import EditProfileDialog from "./EditProfileDialog";
 
 interface Props {
-  user: IUser
+  user: IUser;
 }
-
 
 export default function ProfileHeader({ user }: Props) {
   return (
@@ -18,43 +14,38 @@ export default function ProfileHeader({ user }: Props) {
       <div className="flex items-center gap-5">
 
         <Avatar className="h-24 w-24">
-          <AvatarImage src={user.profileImage} />
+          <AvatarImage
+            src={user?.profileImage || ""}
+            alt={user?.name || ""}
+          />
 
           <AvatarFallback className="text-2xl">
-            {user.name
+            {user?.name
               .split(" ")
-              .map(name => name[0])
+              .map((name) => name[0])
               .join("")
-              .slice(0, 2)}
+              .slice(0, 2)
+              .toUpperCase()}
           </AvatarFallback>
-
         </Avatar>
-
 
         <div>
           <h1 className="text-3xl font-bold">
-            {user.name}
+            {user?.name}
           </h1>
 
           <Badge className="mt-2">
-            {user.role}
+            {user?.role}
           </Badge>
 
-
           <p className="text-sm text-muted-foreground mt-2">
-            {user.isActive}
+            {user?.isActive ? "Active" : "Inactive"}
           </p>
-
         </div>
-
       </div>
 
-
-      <Button className="rounded-full">
-        <Edit className="mr-2 h-4 w-4" />
-        Edit Profile
-      </Button>
+      <EditProfileDialog user={user} />
 
     </div>
-  )
+  );
 }

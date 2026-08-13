@@ -66,3 +66,32 @@ export const schemaRegister = z.object({
     })
     .optional(),
 });
+
+export const schemaUpdateProfile = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters",
+    })
+    .max(50, {
+      message: "Name cannot exceed 50 characters",
+    }),
+
+  email: z
+    .string()
+    .min(1, {
+      message: "Email is required",
+    })
+    .email({
+      message: "Please enter a valid email",
+    }),
+
+  phone: z.string().optional(),
+
+  address: z
+    .string()
+    .max(200, {
+      message: "Address cannot exceed 200 characters",
+    })
+    .optional(),
+});

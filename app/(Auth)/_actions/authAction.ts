@@ -2,8 +2,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { schemaLogin, schemaRegister } from "./validation";
+import { schemaLogin, schemaRegister, schemaUpdateProfile } from "./validation";
 import { redirect } from "next/navigation";
+import { decodeUser, getAccessToken } from "@/lib/accesstoken";
+import { JwtPayload } from "jsonwebtoken";
 
 export type ActionState = {
   success: boolean;
@@ -132,4 +134,88 @@ export const logoutAction = async () => {
   cookiesStore.delete("refreshToken");
 
   redirect("/home");
+};
+
+export const updateProfile = async (
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> => {
+  try {
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      return {
+        success: false,
+        message: "Unauthorized",
+      };
+    }
+
+    const verifiedUser = decodeUser(accessToken) as JwtPayload;
+
+    const id = formData.get("id")?.toString();
+
+    if (!id) {
+      return {
+        success: false,
+        message: "User ID is required",
+      };
+    }
+
+    if (verifiedUser.id !== id) {
+      return {
+        success: false,
+        message: "You are not authorized to update this profile",
+      };
+    }
+
+    const userData = {
+      name: formData.get("name")?.toString() || "",
+      email: formData.get("email")?.toString() || "",
+      phone: formData.get("phone")?.toString() || "",
+      address: formData.get("address")?.toString() || "",
+    };
+
+    const validatedData = schemaUpdateProfile.safeParse(userData);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        message: validatedData.error.issues[0]?.message || "Invalid data",
+      };
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/user/my-profile`,
+      {
+        method: "PUT",
+        headers: {
+          Cookie: `accessToken=${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(validatedData.data),
+      },
+    );
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to update profile",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "Profile updated successfully",
+      data: result.data,
+    };
+  } catch (error) {
+    console.error("Update profile error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
+  }
 };

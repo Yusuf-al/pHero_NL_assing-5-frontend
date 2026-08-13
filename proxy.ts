@@ -4,7 +4,15 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 const AUTH_ROUTES = ["/login", "/registration"];
 
-const PUBLIC_ROUTES = ["/", "/home", "/properties", ...AUTH_ROUTES];
+const PUBLIC_ROUTES = [
+  "/",
+  "/home",
+  "/properties",
+  "/not-found",
+  "/login",
+  "/registration",
+  "/checkout.stripe.com/",
+];
 
 export function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
@@ -40,7 +48,7 @@ export function proxy(request: NextRequest) {
 
   // Check public routes
   const isPublic = PUBLIC_ROUTES.some(
-    (route) => pathName === route || pathName.startsWith(route + "/"),
+    (route) => pathName === route || pathName.startsWith(`${route}/`),
   );
 
   // Not logged in + trying to access protected route
@@ -54,15 +62,15 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (pathName.startsWith("/admin") && userRole !== "ADMIN") {
+  if (pathName.startsWith("/admin/") && userRole !== "ADMIN") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
-  if (pathName.startsWith("/landlord") && userRole !== "LANDLORD") {
+  if (pathName.startsWith("/landlord/") && userRole !== "LANDLORD") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
-  if (pathName.startsWith("/bookings") && userRole !== "TENANT") {
+  if (pathName.startsWith("/bookings/") && userRole !== "TENANT") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
@@ -71,8 +79,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/login",
-    "/registration",
+    "/checkout.stripe.com/",
     "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|woff|woff2|ttf)$).*)",
   ],
 };

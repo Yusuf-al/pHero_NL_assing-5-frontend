@@ -39,7 +39,7 @@ export default function AccountOverviewCard({
 
                     <p className="font-medium">
                         {
-                            user.role === "LANDLORD"
+                            user?.role === "LANDLORD"
                                 ? "Property Owner"
                                 : "Tenant"
                         }
