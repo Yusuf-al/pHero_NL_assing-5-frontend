@@ -46,6 +46,8 @@ export default function ReviewForm({
                 if (submittedReview.success) {
 
                     toast.success(submittedReview.message);
+                } else {
+                    toast.error(submittedReview.message)
                 }
 
                 setRating(0);
