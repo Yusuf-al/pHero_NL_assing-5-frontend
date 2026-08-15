@@ -139,7 +139,7 @@ export default async function PaymentSuccessPage({ params }: Props) {
                                     </span>
 
                                     <span className="font-bold">
-                                        ${payment.amount}
+                                        ${payment?.amount}
                                     </span>
                                 </div>
 
@@ -148,7 +148,7 @@ export default async function PaymentSuccessPage({ params }: Props) {
                                         Payment Method
                                     </span>
 
-                                    <Badge>{payment.paymentMethod}</Badge>
+                                    <Badge>{payment?.paymentMethod}</Badge>
                                 </div>
 
                                 <div className="flex justify-between">
@@ -167,7 +167,7 @@ export default async function PaymentSuccessPage({ params }: Props) {
                                     </p>
 
                                     <div className="mt-2 rounded-xl bg-muted p-3 font-mono text-sm break-all">
-                                        {payment.transactionId}
+                                        {payment?.transactionId}
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@ export default async function PaymentSuccessPage({ params }: Props) {
 
                                     <span>
                                         {new Date(
-                                            payment.paymentDate
+                                            payment?.paymentDate
                                         ).toLocaleString()}
                                     </span>
                                 </div>
