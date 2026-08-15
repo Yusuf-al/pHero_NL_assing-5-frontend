@@ -5,7 +5,6 @@ const landlordDashboard = async () => {
 
   const userData = await getProfile()
 
-  // console.log(userData)
   return (
     <div className="space-y-6">
       <div>

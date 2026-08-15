@@ -132,22 +132,26 @@ export default function PropertyList({
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <span className="font-semibold">
+                                        <span className="flex items-center gap-1 font-semibold">
                                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                            {property.reviews?.length
-                                                ? (
-                                                    property.reviews.reduce(
-                                                        (sum: number, review: { rating: number }) =>
-                                                            sum + review.rating,
-                                                        0
-                                                    ) / property.reviews.length
-                                                ).toFixed(1)
-                                                : "0.0"}
+
+                                            <span>
+                                                {property.reviews?.length
+                                                    ? (
+                                                        property.reviews.reduce(
+                                                            (sum: number, review: { rating: number }) =>
+                                                                sum + review.rating,
+                                                            0
+                                                        ) / property.reviews.length
+                                                    ).toFixed(1)
+                                                    : "0.0"}
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                / 5
+                                            </span>
                                         </span>
 
-                                        <span className="text-muted-foreground">
-                                            / 5
-                                        </span>
+
                                     </TableCell>
 
                                     <TableCell>

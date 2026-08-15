@@ -51,7 +51,7 @@ export default function BookingDetails({
                 return;
             } else {
 
-                console.log(res.data)
+              
                 toast.success("Please complete your payment process");
                 router.push(res.data) // re-fetches server data, updates badge/status in UI
             }

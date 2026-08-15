@@ -5,8 +5,7 @@ export default function PropertyHeader({
     propertydata,
 }: PropertyProps) {
     const { title, city, area } = propertydata;
-    console.log(propertydata)
-
+    
     return (
         <div>
             <h1 className="text-4xl font-bold">{title}</h1>
