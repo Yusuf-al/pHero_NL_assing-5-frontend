@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Pencil, BedDouble, Bath, Trash2 } from "lucide-react";
+import { Eye, Pencil, BedDouble, Bath, Trash2, Star } from "lucide-react";
 
 import Link from "next/link";
 
@@ -79,6 +79,7 @@ export default function PropertyList({
                             <TableHead>Location</TableHead>
                             <TableHead>Rent</TableHead>
                             <TableHead>Rooms</TableHead>
+                            <TableHead>Ratings</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead className="text-right">
                                 Actions
@@ -129,6 +130,24 @@ export default function PropertyList({
                                                 {property.bathrooms}
                                             </div>
                                         </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className="font-semibold">
+                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                            {property.reviews?.length
+                                                ? (
+                                                    property.reviews.reduce(
+                                                        (sum: number, review: { rating: number }) =>
+                                                            sum + review.rating,
+                                                        0
+                                                    ) / property.reviews.length
+                                                ).toFixed(1)
+                                                : "0.0"}
+                                        </span>
+
+                                        <span className="text-muted-foreground">
+                                            / 5
+                                        </span>
                                     </TableCell>
 
                                     <TableCell>

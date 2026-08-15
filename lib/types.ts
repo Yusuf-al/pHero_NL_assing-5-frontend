@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IProperties {
   id: string;
   title: string;
@@ -8,6 +9,7 @@ export interface IProperties {
   area: string;
   bedrooms: number;
   bathrooms: number;
+  reviews?: any;
   status: "AVAILABLE" | "RENTED" | "PENDING";
   landlord: ILandlord;
   category: ICategory;

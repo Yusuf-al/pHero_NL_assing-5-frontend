@@ -4,6 +4,7 @@ import PropertyList from "../../_components/PropertyList";
 
 export default async function AllPropertiesPage() {
     const result = await getLandlordProperties();
+    console.log(result.data)
 
     if (!result.success) {
         return <div>{result.message}</div>;

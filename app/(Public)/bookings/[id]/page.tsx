@@ -23,6 +23,8 @@ export default async function BookingPage({ params }: Props) {
 
     const booking = bookingData.data;
 
+
+
     return (
         <BookingDetails booking={booking} />
     );

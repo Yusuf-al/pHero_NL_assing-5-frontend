@@ -49,7 +49,6 @@ export const getAllProperties = async ({
       // },
     },
   );
-  console.log(res.url);
 
   const result = await res.json();
 
@@ -212,6 +211,51 @@ export const makePayment = async (id: string) => {
   const result = await res.json();
 
   redirect(result.data);
+  return {
+    success: true,
+    message: result.message,
+    data: result,
+  };
+};
+
+export const submitReview = async (
+  propertyId: string,
+  bookingId: string,
+  reviewData: {
+    rating: number;
+    comment?: string;
+  },
+) => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/review/create/${propertyId}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `accessToken=${accessToken}`,
+      },
+      body: JSON.stringify({
+        bookingId: bookingId,
+        review: reviewData,
+      }),
+    },
+  );
+
+  const result = await res.json();
+
+  if (!res.ok || !result.success) {
+    return {
+      success: false,
+      message: result.message || "Failed to submit review",
+    };
+  }
+
   return {
     success: true,
     message: result.message,

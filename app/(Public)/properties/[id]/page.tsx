@@ -8,6 +8,7 @@ import PropertyHeader from "../../_components/PropertyHeader";
 import PropertyLandlord from "../../_components/PropertyLandlord";
 import PropertyLocation from "../../_components/PropertyLocation";
 import PropertySidebar from "../../_components/PropertySidebar";
+import PropertyReviews from "../../_components/PropertyReviews";
 
 
 interface Props {
@@ -32,6 +33,7 @@ export default async function SinglePropertyPage({ params }: Props) {
                         <PropertyAmenities />
                         <PropertyLocation propertydata={property} />
                         <PropertyLandlord propertydata={property} />
+                        <PropertyReviews property={property} />
                     </div>
 
                     <PropertySidebar propertydata={property} />

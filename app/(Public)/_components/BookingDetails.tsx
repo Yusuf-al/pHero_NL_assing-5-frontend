@@ -14,6 +14,8 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import ReviewForm from "./ReviewForm";
+import ReviewSubmitted from "./ReviewSubmitted";
 
 interface BookingDetailsProps {
     booking: any;
@@ -200,6 +202,7 @@ export default function BookingDetails({
                                                         : "bg-gray-100 text-gray-600 hover:bg-gray-100"
                                 } >{booking.status}</Badge>
                             </div>
+
                         </div>
 
                         {!booking.isPaid && booking.status === "PENDING" && (
@@ -220,9 +223,29 @@ export default function BookingDetails({
                                 </Button>
                             </>
                         )}
+
+
                     </aside>
+
                 </div>
             </div>
+
+            {/* Review */}
+            {booking.status === "COMPLETED" && (
+                <div className="mt-6">
+                    {booking.review ? (
+                        <ReviewSubmitted
+                            rating={booking.review.rating}
+                            comment={booking.review.comment}
+                        />
+                    ) : (
+                        <ReviewForm
+                            bookingId={booking.id}
+                            propertyId={booking.propertyId}
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 }

@@ -43,7 +43,6 @@ export default function EditProfileDialog({ user }: Props) {
 
     const [formData, setFormData] = useState({
         name: user?.name || "",
-        email: user?.email || "",
         phone: user?.phone || "",
         address: user?.address || "",
     });
@@ -69,7 +68,7 @@ export default function EditProfileDialog({ user }: Props) {
             toast.error(state.message);
         }
         setOpen(false);
-    }, [state]);
+    }, [state, router]);
 
     return (
         <Dialog
@@ -129,9 +128,9 @@ export default function EditProfileDialog({ user }: Props) {
                             id="email"
                             name="email"
                             type="email"
-                            value={formData.email}
+                            value={user.email}
                             onChange={handleChange}
-                            placeholder="Enter your email"
+                            disabled
                             required
                         />
                     </div>

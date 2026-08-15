@@ -170,7 +170,6 @@ export const updateProfile = async (
 
     const userData = {
       name: formData.get("name")?.toString() || "",
-      email: formData.get("email")?.toString() || "",
       phone: formData.get("phone")?.toString() || "",
       address: formData.get("address")?.toString() || "",
     };

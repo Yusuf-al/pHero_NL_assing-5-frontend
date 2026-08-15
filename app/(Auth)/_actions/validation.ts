@@ -76,16 +76,6 @@ export const schemaUpdateProfile = z.object({
     .max(50, {
       message: "Name cannot exceed 50 characters",
     }),
-
-  email: z
-    .string()
-    .min(1, {
-      message: "Email is required",
-    })
-    .email({
-      message: "Please enter a valid email",
-    }),
-
   phone: z.string().optional(),
 
   address: z

@@ -5,6 +5,7 @@ import { PropertySchema } from "./propertyValidators";
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import jwt from "jsonwebtoken";
+import { getAccessToken } from "@/lib/accesstoken";
 
 export const createNewProperty = async (
   prevState: ActionState,
@@ -30,8 +31,11 @@ export const createNewProperty = async (
       message: "Please fix the error below",
     };
   }
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/landlord/create`,
@@ -75,8 +79,11 @@ export const createNewProperty = async (
 };
 
 export const getLandlordProperties = async (): Promise<ActionState> => {
-  const cookiesStore = await cookies();
-  const accessToken = cookiesStore.get("accessToken")?.value;
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Unauthorized" };
+  }
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/properties/all`,
@@ -84,6 +91,7 @@ export const getLandlordProperties = async (): Promise<ActionState> => {
       headers: {
         Cookie: `accessToken=${accessToken}`,
       },
+      cache: "no-store",
     },
   );
 

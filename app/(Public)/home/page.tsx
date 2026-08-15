@@ -74,10 +74,22 @@ export default async function HomePage({
                       className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
 
-                    {/* <div className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-1 text-sm font-medium shadow flex items-center gap-1">
+                    {/* Rating */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/95 px-3 py-1.5 text-sm font-semibold shadow-md backdrop-blur-sm">
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      {property.rating}
-                    </div> */}
+
+                      <span>
+                        {property.reviews?.length
+                          ? (
+                            property.reviews.reduce(
+                              (sum: number, review: { rating: number }) =>
+                                sum + review.rating,
+                              0
+                            ) / property.reviews.length
+                          ).toFixed(1)
+                          : "0.0"}
+                      </span>
+                    </div>
                   </div>
 
                   <CardContent className="p-4 space-y-3">
@@ -109,12 +121,17 @@ export default async function HomePage({
                         <span className="text-xl font-bold">
                           ${property.rent}
                         </span>
+
                         <span className="text-sm text-muted-foreground">
                           /night
                         </span>
                       </div>
-                      <Button>
-                        <Link href={`/properties/${property.id}`} className="rounded-full">
+
+                      <Button asChild>
+                        <Link
+                          href={`/properties/${property.id}`}
+                          className="rounded-full"
+                        >
                           View
                         </Link>
                       </Button>

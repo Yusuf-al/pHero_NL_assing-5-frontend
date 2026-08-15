@@ -16,7 +16,6 @@ export default async function ProfilePage() {
 
 
     const user = await getProfile()
-    console.log("PROFILE AFTER UPDATE:", user);
 
     return (
 

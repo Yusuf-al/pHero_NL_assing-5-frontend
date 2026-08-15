@@ -51,6 +51,8 @@ export default function EditRentalStatusDialog({
                 toast.success(res.message)
                 onOpenChange(false)
                 router.refresh()
+            } else {
+                toast.error(res.message)
             }
 
             onOpenChange(false);
